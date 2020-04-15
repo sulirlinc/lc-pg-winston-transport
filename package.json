@@ -1,0 +1,20 @@
+{
+  "name": "lc-pg-winston-transport",
+  "version": "1.0.0",
+  "description": "winston保存日志到数据库。",
+  "author": "Linc",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sulirlinc/lc-js-common"
+  },
+  "dependencies": {
+    "lc-js-common": "^1.0.10",
+    "lc-pg-dao": "^1.0.0",
+    "winston-transport": "latest"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}

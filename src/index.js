@@ -1,10 +1,21 @@
 const TransportStream = require('winston-transport');
 const { L } = require("lc-js-common")
 const dao = require('lc-pg-dao')
+
+const doCreateTable = (tableName, saveByDayNewTable, dao, createTableConfig, fields) => {
+  this.tableName = `${ tableName }${ saveByDayNewTable ? '_' + L.getCurrentDay({ format: 'yyyy_MM_dd' }) : '' }`;
+  return dao.create(createTableConfig || {
+    isAutoCreateId: true,
+    createUpdateAt: false,
+    tableName: this.tableName,
+    fields
+  })
+}
+
 module.exports = class PG extends TransportStream {
 
   async initPGDAO({ config }) {
-    this.dao = (dao({ config }))
+    this.dao = dao({ config })
     this.client = this.client || await this.dao.client()
     return dao
   }
@@ -19,20 +30,12 @@ module.exports = class PG extends TransportStream {
       name: 'meta',
       type: 'JSON'
     } ].concat(addFields)
-
-    const doFun = () => this.initPGDAO({ config: pgConfig }).then(dao => {
-      this.tableName = `${ tableName }${ saveByDayNewTable ? '_' + L.getCurrentDay({ format: 'yyyy_MM_dd' }) : '' }`;
-      return dao.create(createTableConfig || {
-        isAutoCreateId: true,
-        createUpdateAt: false,
-        tableName: this.tableName,
-        fields
-      })
-    })
-
-    doFun().catch(e => { console.error(e) })
+    const me = this
+    this.initPGDAO({ config: pgConfig }).then(dao => {
+      return doCreateTable.call(me, tableName, saveByDayNewTable, dao, createTableConfig, fields);
+    }).catch(e => { console.error(e) })
     if (saveByDayNewTable) {
-      L.timer.putTrigger({ trigger: () => { doFun().catch(e => { console.error(e) }) } })
+      setTimeout(L.timer.putTrigger({ trigger: () => { doCreateTable.call(me, tableName, saveByDayNewTable, dao, createTableConfig, fields).catch(e => { console.error(e) }) } }), 10000);
     }
     this.setMaxListeners(30);
   }

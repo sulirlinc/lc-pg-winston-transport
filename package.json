@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sulirlinc/lc-js-common"
+    "url": "https://github.com/sulirlinc/lc-pg-winston-transport"
   },
   "dependencies": {
     "lc-js-common": "^1.0.10",

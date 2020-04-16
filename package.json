@@ -1,6 +1,6 @@
 {
   "name": "lc-pg-winston-transport",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "winston保存日志到数据库。",
   "author": "Linc",
   "main": "src/index.js",

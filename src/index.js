@@ -2,7 +2,7 @@ const TransportStream = require('winston-transport');
 const { L } = require("lc-js-common")
 const dao = require('lc-pg-dao')
 
-const doCreateTable = (tableName, saveByDayNewTable, dao, createTableConfig, fields) => {
+const doCreateTable = (tableName, dao, createTableConfig, fields) => {
   return dao.create(createTableConfig || {
     isAutoCreateId: true,
     createUpdateAt: false,
@@ -46,6 +46,7 @@ module.exports = class PG extends TransportStream {
       this.emit('logged', info);
     });
     if (saveDB) {
+      delete info['saveDB']
       this.saveDB({ info, saveDB }).catch(e => console.error(e));
     }
     callback();

@@ -32,10 +32,10 @@ module.exports = class PG extends TransportStream {
     } ].concat(addFields)
     const me = this
     this.initPGDAO({ config: pgConfig }).then(dao => {
-      return doCreateTable.call(me, tableName, saveByDayNewTable, dao, createTableConfig, fields);
+      return doCreateTable.call(me, this.tableName, saveByDayNewTable, dao, createTableConfig, fields);
     }).catch(e => { console.error(e) })
     if (saveByDayNewTable) {
-      setTimeout(() => L.timer.putTrigger({ trigger: () => { doCreateTable.call(me, tableName, saveByDayNewTable, dao, createTableConfig, fields).catch(e => { console.error(e) }) } }), 10000);
+      setTimeout(() => L.timer.putTrigger({ trigger: () => { doCreateTable.call(me, this.tableName, saveByDayNewTable, dao, createTableConfig, fields).catch(e => { console.error(e) }) } }), 10000);
     }
     this.setMaxListeners(30);
   }

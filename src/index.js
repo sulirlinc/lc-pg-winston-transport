@@ -3,7 +3,7 @@ const { L } = require("lc-js-common")
 const dao = require('lc-pg-dao')
 
 const doCreateTable = (tableName, dao, createTableConfig, fields) => {
-  return dao.create(createTableConfig || {
+  return dao.createTable(createTableConfig || {
     isAutoCreateId: true,
     createUpdateAt: false,
     tableName,

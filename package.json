@@ -1,6 +1,6 @@
 {
   "name": "lc-pg-winston-transport",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "winston保存日志到数据库。",
   "author": "Linc",
   "main": "src/index.js",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "lc-js-common": "^1.0.10",
-    "lc-pg-dao": "^1.0.0",
+    "lc-pg-dao": "^1.0.3",
     "winston-transport": "latest"
   }
 }

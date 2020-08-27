@@ -25,14 +25,13 @@ module.exports = class PG extends TransportStream {
     this.tableName = `${ tableName }${ saveByDayNewTable ? '_' + L.getCurrentDay({ format: 'yyyy_MM_dd' }) : '' }`;
     this.defaultSaveDB = defaultSaveDB
     this.level = level
-    this.fields = addFields
-    const fields = [ {
+    this.fields = [ {
       name: 'meta',
       type: 'JSON'
     } ].concat(addFields)
     const me = this
     this.initPGDAO({ config: pgConfig }).then(dao => {
-      return doCreateTable.call(me, this.tableName, dao, createTableConfig, fields);
+      return doCreateTable.call(me, this.tableName, dao, createTableConfig, this.fields);
     }).catch(e => { console.error(e) })
     if (saveByDayNewTable) {
       setTimeout(() => L.timer.putTrigger({ trigger: () => { doCreateTable.call(me, this.tableName, dao, createTableConfig, fields).catch(e => { console.error(e) }) } }), 10000);
